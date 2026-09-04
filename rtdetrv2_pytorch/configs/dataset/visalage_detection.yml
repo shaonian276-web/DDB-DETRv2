@@ -1,0 +1,46 @@
+task: detection
+
+evaluator:
+  type: CocoEvaluator
+  iou_types: ['bbox', ]
+
+# 先按6类写，如果后面确认类别数再修改
+num_classes: 6
+remap_mscoco_category: False
+
+train_dataloader:
+  type: DataLoader
+  dataset:
+    type: CocoDetection
+    img_folder: /home/vipuser/VisAlage2023_COCO/images/train
+    ann_file: /home/vipuser/VisAlage2023_COCO/annotations/instances_train_zero.json
+    return_masks: False
+    transforms:
+      type: Compose
+      ops: ~
+
+  shuffle: True
+  num_workers: 4
+  drop_last: True
+
+  collate_fn:
+    type: BatchImageCollateFunction
+
+
+val_dataloader:
+  type: DataLoader
+  dataset:
+    type: CocoDetection
+    img_folder: /home/vipuser/VisAlage2023_COCO/images/val
+    ann_file: /home/vipuser/VisAlage2023_COCO/annotations/instances_val_zero.json
+    return_masks: False
+    transforms:
+      type: Compose
+      ops: ~
+
+  shuffle: False
+  num_workers: 4
+  drop_last: False
+
+  collate_fn:
+    type: BatchImageCollateFunction
